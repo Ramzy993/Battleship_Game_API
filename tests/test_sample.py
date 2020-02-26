@@ -24,34 +24,34 @@ class TestSampleClass(unittest.TestCase):
             data = json.load(json_file)
         return data
 
-    def test_game_created_with_OK(self):
+    def test_game_created_with_response_OK(self):
         json_data = self._load_json_data('ships_with_good_setup')
         with self.client as c:
             response = c.post('/battleship', json=json_data)
             self.assertEqual(response.status_code, 200)
 
-    def test_game_created_with_setup_even_h(self):
+    def test_game_created_with_ship_setup_even_h(self):
         json_data = self._load_json_data('ships_with_good_setup_even_h')
         with self.client as c:
             c.post('/battleship', json=json_data)
             locations = [(location[0], location[1])for location in game_handler.board_locations]
             self.assertEqual(locations, [(2, 1), (3, 1), (4, 1), (5, 1)])
 
-    def test_game_created_with_setup_odd_h(self):
+    def test_game_created_with_ship_setup_odd_h(self):
         json_data = self._load_json_data('ships_with_good_setup_odd_h')
         with self.client as c:
             c.post('/battleship', json=json_data)
             locations = [(location[0], location[1])for location in game_handler.board_locations]
             self.assertEqual(locations, [(2, 1), (3, 1), (4, 1)])
 
-    def test_game_created_with_setup_even_v(self):
+    def test_game_created_with_ship_setup_even_v(self):
         json_data = self._load_json_data('ships_with_good_setup_even_v')
         with self.client as c:
             c.post('/battleship', json=json_data)
             locations = [(location[0], location[1]) for location in game_handler.board_locations]
             self.assertEqual(locations, [(2, 1), (2, 2), (2, 3), (2, 4)])
 
-    def test_game_created_with_setup_odd_v(self):
+    def test_game_created_with_ship_setup_odd_v(self):
         json_data = self._load_json_data('ships_with_good_setup_odd_v')
         with self.client as c:
             c.post('/battleship', json=json_data)
@@ -166,6 +166,13 @@ class TestSampleClass(unittest.TestCase):
             c.post('/battleship', json=json_data)
             response = c.delete('/battleship')
             self.assertEqual(response.status_code, 200)
+
+    def test_game_flush_ships_data_after_DELETE_request(self):
+        json_data = self._load_json_data('ships_with_good_setup')
+        with self.client as c:
+            c.post('/battleship', json=json_data)
+            c.delete('/battleship')
+            self.assertEqual(game_handler.ships, {})
 
 
 if __name__=="__main__":
