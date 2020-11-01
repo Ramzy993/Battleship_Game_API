@@ -1,11 +1,3 @@
-# Battle Ship
-
-This repo is the start-up point to submit the battleship game exercise for
-Profit Tools. It's recommended you read all the instructions before you start
-the exercise.
-
-The exercise will be timed to 24 hours starting at the time you gain access to
-the repo. The solution should be submitted through a pull request into the repo.
 
 ## The Goal
 
